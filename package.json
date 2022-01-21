@@ -1,0 +1,23 @@
+{
+  "name": "mygg",
+  "version": "1.0.0",
+  "description": "리그오브레전드 전적 검색",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madlar/MYGG.git"
+  },
+  "author": "Madlar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Madlar/MYGG/issues"
+  },
+  "homepage": "https://github.com/Madlar/MYGG#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}

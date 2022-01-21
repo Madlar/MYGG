@@ -1,0 +1,13 @@
+DB
+- 소환사 정보
+
+서버
+- 라이엇api 호출 빈도를 줄이기 위해 호출 됐었던 정보들을 자체 서버에 저장후 클라이언트에 반환
+- 클라이언트에서 업데이트 요청을 하면 라이엇api로 갱신
+
+api
+- SUMMONER-V4 /lol/summoner/v4/summoners/by-name/{summonerName}
+
+클라이언트
+- 소환사 검색
+- 소환사의 티어, 점수, 전적 보여줌
