@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 //riot api로 데이터를 받을 axios
 const riotAxios = axios.create({
   headers: {
-    'X-Riot-Token': 'RGAPI-b806aa91-a42d-4e6f-a714-2082e6ab59d0'
+    'X-Riot-Token': 'RGAPI-0504d0a3-6748-4780-a2b7-752493845937'
   }
 })
 
