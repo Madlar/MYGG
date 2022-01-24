@@ -94,13 +94,36 @@ app.post('/updateSummoner', async (req, res) => {
         })
 
       });
-      
+
       console.log('LeagueEntry success : true')
     }
     else {
       console.log('LeagueEntry success : Unranked')
     }
     return res.status(200).json({ success: true })
+  })
+  .catch(err => {
+    if(err.hasOwnProperty('response')) {
+      if(err.response.hasOwnProperty('status')) {
+        return res.status(err.response.status).json(err.response.data)
+      }
+      else return res.send(err)
+    }
+    else
+    return res.send(err)
+  })
+
+})
+
+//riot 서버에서 인게임 정보 받기
+app.get('/inGameInfo', (req, res) => {
+
+  const summonerIdURI = `https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${req.body.id}`
+  const encodedSummonerId = encodeURI(summonerIdURI)
+
+  riotAxios.get(encodedSummonerId)
+  .then(inGameRes => {
+    return res.status(200).json(inGameRes.data)
   })
   .catch(err => {
     if(err.hasOwnProperty('response')) {
