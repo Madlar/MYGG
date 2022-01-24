@@ -3,6 +3,9 @@ const app = express()
 const port = 3000
 const bodyParser = require('body-parser')
 const axios = require('axios')
+
+const config = require('./config/key')
+
 const { Summoner } = require("./models/Summoner")
 
 //application/x-www-form-urlencoded
@@ -13,12 +16,12 @@ app.use(bodyParser.json());
 //riot api로 데이터를 받을 axios
 const riotAxios = axios.create({
   headers: {
-    'X-Riot-Token': 'RGAPI-0504d0a3-6748-4780-a2b7-752493845937'
+    'X-Riot-Token': config.riotAPIKey
   }
 })
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://madlar:1q2w3e4r!@mygg.lemu1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(config.mongoURI, {
   useNewUrlParser: true
 }).then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err))
