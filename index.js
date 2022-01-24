@@ -7,6 +7,7 @@ const axios = require('axios')
 const config = require('./config/key')
 
 const { Summoner } = require("./models/Summoner")
+const { LeagueEntry } = require("./models/LeagueEntry")
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}))
@@ -31,15 +32,22 @@ app.get('/', (req, res) => {
 })
 
 //riot 서버에서 소환사 정보 갱신받기
-app.post('/updateSummoner', (req, res) => {
-  //영문, 숫자 이외의 문자를 uri로 받기 위해 uft8로 인코딩
-  const uri = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.body.name}`
-  const encoded = encodeURI(uri)
+app.post('/updateSummoner', async (req, res) => {
 
+  //영문, 숫자 이외의 문자를 uri로 받기 위해 uft8로 인코딩
+  const summonerURI = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.body.name}`
+  const encodedSummoner = encodeURI(summonerURI)
+
+  var id
+  var puuid
+  
   //Riot API를 사용하여 소환사 이름으로 검색해서 소환사 정보 가져오기
-  riotAxios.get(encoded)
+  await riotAxios.get(encodedSummoner)
   .then(axiosRes => {
+
     const summoner = new Summoner(axiosRes.data)
+    id = summoner.id
+    puuid = summoner.puuid
 
     //summoner가 새로운 Summoner document이므로
     //findOneAndUpdate에 수정 파라미터로 summoner을 넣을경우 _id도 변경하려 시도해서
@@ -52,21 +60,59 @@ app.post('/updateSummoner', (req, res) => {
       upsert: true, //없으면 생성
       overwrite: true //기존 다큐먼트 덮어쓰기
     }, (err, doc) => {
-      if (err) return res.json({ success: false, err })
-      return res.status(200).send({
-        success: true
-      })
+      if (err) return res.json({ 'Summoner success': false, err })
     });
+    console.log('Summoner success : true')
+
   })
   .catch(err => {
     if(err.hasOwnProperty('response')) {
       if(err.response.hasOwnProperty('status')) {
         return res.status(err.response.status).json(err.response.data)
       }
+      else return res.send(err)
     }
     else
     return res.send(err)
   })
+
+  //LeagueEntry 받아오기
+  riotAxios.get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}`)
+  .then(entryRes => {//json 배열로 값이 넘어옴
+    if(entryRes.data.length !== 0) {
+      entryRes.data.forEach(element => {
+
+        var leagueEntry = new LeagueEntry(element)
+        var leagueEntry_updated = JSON.parse(JSON.stringify(leagueEntry))
+        delete leagueEntry_updated._id
+
+        LeagueEntry.findOneAndUpdate({ summonerId: id, queueType: leagueEntry_updated.queueType }, leagueEntry_updated, {
+          upsert: true,
+          overwrite: true
+        }, (err, doc) => {
+          if (err) return res.json({ 'LeagueEntry success': false, err })
+        })
+
+      });
+      
+      console.log('LeagueEntry success : true')
+    }
+    else {
+      console.log('LeagueEntry success : Unranked')
+    }
+    return res.status(200).json({ success: true })
+  })
+  .catch(err => {
+    if(err.hasOwnProperty('response')) {
+      if(err.response.hasOwnProperty('status')) {
+        return res.status(err.response.status).json(err.response.data)
+      }
+      else return res.send(err)
+    }
+    else
+    return res.send(err)
+  })
+
 })
 
 app.listen(port, () => {
