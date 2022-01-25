@@ -1,33 +1,54 @@
 const mongoose = require('mongoose')
+//정의 순서 중요 제일 작은 커스텀 스키마부터 정의해나갈것
+const objective = mongoose.Schema({
+    first: Boolean,
+    kills: Number
+},{ _id : false })
 
-const matchSchema = mongoose.Schema({
-    metadata: metadata, //Match metadata.
-    info: info //	Match info.
-})
+const objectives = mongoose.Schema({
+    baron: objective,
+    champion: objective,
+    dragon: objective,
+    inhibitor: objective,
+    riftHerald: objective,
+    tower: objective,
+},{ _id : false })
 
-const metadata = mongoose.Schema({
-    dataVersion: String,//Match data version.
-    matchId: String,//Match id.
-    participants: [String]//A list of participant PUUIDs.
-})
+const ban = mongoose.Schema({
+    championId: Number,
+    pickTurn: Number
+},{ _id : false })
 
-const info = mongoose.Schema({
-    gameCreation: Number,//Unix timestamp for when the game is created on the game server (i.e., the loading screen).
-    gameDuration: Number,//Prior to patch 11.20, this field returns the game length in milliseconds calculated from gameEndTimestamp - gameStartTimestamp. Post patch 11.20, this field returns the max timePlayed of any participant in the game in seconds, which makes the behavior of this field consistent with that of match-v4. The best way to handling the change in this field is to treat the value as milliseconds if the gameEndTimestamp field isn't in the response and to treat the value as seconds if gameEndTimestamp is in the response.
-    gameEndTimestamp: Number,//	Unix timestamp for when match ends on the game server. This timestamp can occasionally be significantly longer than when the match "ends". The most reliable way of determining the timestamp for the end of the match would be to add the max time played of any participant to the gameStartTimestamp. This field was added to match-v5 in patch 11.20 on Oct 5th, 2021.
-    gameId: Number,
-    gameMode: String,//	Refer to the Game Constants documentation.
-    gameName: String,
-    gameStartTimestamp: Number,//Unix timestamp for when match starts on the game server.
-    gameType: String,
-    gameVersion: String,//The first two parts can be used to determine the patch a game was played on.
-    mapId: Number,//	Refer to the Game Constants documentation.
-    participants: [participants],
-    platformId: String,//Platform where the match was played.
-    queueId: Number,//	Refer to the Game Constants documentation.
-    teams: [team],
-    tournamentCode: String,//Tournament code used to generate the match. This field was added to match-v5 in patch 11.13 on June 23rd, 2021.
-})
+const team = mongoose.Schema({
+    bans: [ban],
+    objectives: objectives,
+    teamId: Number,
+    win: Boolean
+},{ _id : false })
+
+const perkStyleSelection = mongoose.Schema({
+    perk: Number,
+    var1: Number,
+    var2: Number,
+    var3: Number
+},{ _id : false })
+
+const perkStyle = mongoose.Schema({
+    description: String,
+    selections: [perkStyleSelection],
+    style: Number
+},{ _id : false })
+
+const perkStats = mongoose.Schema({
+    defense: Number,
+    flex: Number,
+    offense: Number
+},{ _id : false })
+
+const perks = mongoose.Schema({
+    statPerks: perkStats,
+    styles: [perkStyle]
+},{ _id : false })
 
 const participants = mongoose.Schema({
     assists: Number,
@@ -135,56 +156,35 @@ const participants = mongoose.Schema({
     wardsKilled: Number,
     wardsPlaced: Number,
     win: Boolean
-})
+},{ _id : false })
 
-const perks = mongoose.Schema({
-    statPerks: perkStats,
-    styles: [perkStyle]
-})
+const info = mongoose.Schema({
+    gameCreation: Number,//Unix timestamp for when the game is created on the game server (i.e., the loading screen).
+    gameDuration: Number,//Prior to patch 11.20, this field returns the game length in milliseconds calculated from gameEndTimestamp - gameStartTimestamp. Post patch 11.20, this field returns the max timePlayed of any participant in the game in seconds, which makes the behavior of this field consistent with that of match-v4. The best way to handling the change in this field is to treat the value as milliseconds if the gameEndTimestamp field isn't in the response and to treat the value as seconds if gameEndTimestamp is in the response.
+    gameEndTimestamp: Number,//	Unix timestamp for when match ends on the game server. This timestamp can occasionally be significantly longer than when the match "ends". The most reliable way of determining the timestamp for the end of the match would be to add the max time played of any participant to the gameStartTimestamp. This field was added to match-v5 in patch 11.20 on Oct 5th, 2021.
+    gameId: Number,
+    gameMode: String,//	Refer to the Game Constants documentation.
+    gameName: String,
+    gameStartTimestamp: Number,//Unix timestamp for when match starts on the game server.
+    gameType: String,
+    gameVersion: String,//The first two parts can be used to determine the patch a game was played on.
+    mapId: Number,//	Refer to the Game Constants documentation.
+    participants: [participants],
+    platformId: String,//Platform where the match was played.
+    queueId: Number,//	Refer to the Game Constants documentation.
+    teams: [team],
+    tournamentCode: String,//Tournament code used to generate the match. This field was added to match-v5 in patch 11.13 on June 23rd, 2021.
+},{ _id : false })
 
-const perkStats = mongoose.Schema({
-    defense: Number,
-    flex: Number,
-    offense: Number
-})
+const metadata = mongoose.Schema({
+    dataVersion: String,//Match data version.
+    matchId: String,//Match id.
+    participants: [String]//A list of participant PUUIDs.
+},{ _id : false })
 
-const perkStyle = mongoose.Schema({
-    description: String,
-    selections: [perkStyleSelection],
-    style: Number
-})
-
-const perkStyleSelection = mongoose.Schema({
-    perk: Number,
-    var1: Number,
-    var2: Number,
-    var3: Number
-})
-
-const team = mongoose.Schema({
-    bans: [ban],
-    objectives: objectives,
-    teamId: Number,
-    win: Boolean
-})
-
-const ban = mongoose.Schema({
-    championId: Number,
-    pickTurn: Number
-})
-
-const objectives = mongoose.Schema({
-    baron: objective,
-    champion: objective,
-    dragon: objective,
-    inhibitor: objective,
-    riftHerald: objective,
-    tower: objective,
-})
-
-const objective = mongoose.Schema({
-    first: Boolean,
-    kills: Number
+const matchSchema = mongoose.Schema({
+    metadata: metadata, //Match metadata.
+    info: info //	Match info.
 })
 
 const Match = mongoose.model('Match', matchSchema)

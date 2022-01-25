@@ -8,6 +8,9 @@ const config = require('./config/key')
 
 const { Summoner } = require("./models/Summoner")
 const { LeagueEntry } = require("./models/LeagueEntry")
+const { Match } = require("./models/Match")
+
+var matchList = new Array()
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}))
@@ -31,8 +34,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-//riot 서버에서 소환사 정보 갱신받기
+//riot 서버에서 소환사 정보, 전적 갱신받기
 app.post('/updateSummoner', async (req, res) => {
+
+  console.log('')
+  console.log('-----------------')
+  console.log('Updating Summoner')
+  console.log('-----------------')
 
   //영문, 숫자 이외의 문자를 uri로 받기 위해 uft8로 인코딩
   const summonerURI = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.body.name}`
@@ -40,6 +48,7 @@ app.post('/updateSummoner', async (req, res) => {
 
   var id
   var puuid
+  var matchList = new Array()
   
   //Riot API를 사용하여 소환사 이름으로 검색해서 소환사 정보 가져오기
   await riotAxios.get(encodedSummoner)
@@ -68,12 +77,13 @@ app.post('/updateSummoner', async (req, res) => {
   .catch(err => {
     if(err.hasOwnProperty('response')) {
       if(err.response.hasOwnProperty('status')) {
-        return res.status(err.response.status).json(err.response.data)
+        console.log(err.response.status)
+        console.log(err.response.data)
       }
-      else return res.send(err)
+      else return console.log(err)
     }
     else
-    return res.send(err)
+    return console.log(err)
   })
 
   //LeagueEntry 받아오기
@@ -94,25 +104,84 @@ app.post('/updateSummoner', async (req, res) => {
         })
 
       });
-
       console.log('LeagueEntry success : true')
     }
     else {
       console.log('LeagueEntry success : Unranked')
     }
-    return res.status(200).json({ success: true })
+    
   })
   .catch(err => {
     if(err.hasOwnProperty('response')) {
       if(err.response.hasOwnProperty('status')) {
-        return res.status(err.response.status).json(err.response.data)
+        console.log(err.response.status)
+        console.log(err.response.data)
       }
-      else return res.send(err)
+      else return console.log(err)
     }
     else
-    return res.send(err)
+    return console.log(err)
   })
 
+  //MatchList 받기 start = 0, count = 100 (0<100, def = 20)
+  await riotAxios.get(`https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20`)
+  .then(listRes => {
+    matchList = listRes.data
+    console.log('matchList success : true')
+
+    //return res.status(200).json({ success: true })
+
+  })
+  .catch(err => {
+    if(err.hasOwnProperty('response')) {
+      if(err.response.hasOwnProperty('status')) {
+        console.log(err.response.status)
+        console.log(err.response.data)
+      }
+      else return console.log(err)
+    }
+    else
+    return console.log(err)
+  })
+
+  //전적 받아오기
+  matchList.forEach((element, index, array) => {
+    riotAxios.get(`https://asia.api.riotgames.com/lol/match/v5/matches/${element}`)
+    .then(matchRes => {
+
+      const match = new Match(matchRes.data)
+      var match_updated = JSON.parse(JSON.stringify(match))
+      delete match_updated._id
+
+      Match.findOneAndReplace({ 'metadata.matchId': match.metadata.matchId }, match_updated, {
+        upsert: true
+      }, (err, doc) => {
+        if (err) {
+          const temp = `${index} th match success : false`
+          console.log(temp)
+          console.log(err)
+        }
+        else {
+          const temp = `${index} th match success : true`
+          console.log(temp)
+        }
+      })
+
+    })
+    .catch(err => {
+      if(err.hasOwnProperty('response')) {
+        if(err.response.hasOwnProperty('status')) {
+          console.log(err.response.status)
+          console.log(err.response.data)
+        }
+        else return console.log(err)
+      }
+      else
+      return console.log(err)
+    })
+  })
+
+  return res.status(200).json({ success: true })
 })
 
 //riot 서버에서 인게임 정보 받기
