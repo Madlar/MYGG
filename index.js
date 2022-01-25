@@ -10,8 +10,6 @@ const { Summoner } = require("./models/Summoner")
 const { LeagueEntry } = require("./models/LeagueEntry")
 const { Match } = require("./models/Match")
 
-var matchList = new Array()
-
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}))
 //application/json
@@ -203,6 +201,46 @@ app.get('/inGameInfo', (req, res) => {
     }
     else
     return res.send(err)
+  })
+
+})
+
+//클라이언트에 소환사 정보 보내기
+app.get('/getSummoner', (req, res) => {
+  Summoner.findOne({ name: req.body.name })
+  .exec((err, summoner) => {
+    if(err){
+      res.send(err)
+    }
+    else if(!summoner) {
+      res.status(404).json({
+        status: 404,
+        message: 'Can not found - summoner'
+      })
+    }
+    else {
+      res.status(200).json(summoner)
+    }
+  })
+
+})
+
+//클라이언트에 LeagueEntry 보내기
+app.get('/getLeagueEntry', (req, res) => {
+  LeagueEntry.find({ summonerName: req.body.name })
+  .exec((err, leagueEntry) => {
+    console.log(leagueEntry)
+    if(err) {
+      res.send(err)
+    }
+    else if(leagueEntry.length == 0) {
+      res.status(200).json({
+        message: 'Unranked'
+      })
+    }
+    else {
+      res.status(200).json(leagueEntry)
+    }
   })
 
 })
