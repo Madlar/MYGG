@@ -245,6 +245,20 @@ app.get('/getLeagueEntry', (req, res) => {
 
 })
 
+//클라이언트에 Match 보내기
+app.get('/getMatch', (req, res) => {
+  Match.find( {"info.participants.summonerName": req.body.name })
+  .sort({ "info.gameCreation": -1})
+  .exec((err, match) => {
+    if(err) {
+      res.send(err)
+    }
+    else {
+      res.status(200).json(match)
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

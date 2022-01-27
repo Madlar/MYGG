@@ -4,8 +4,8 @@
   "description": "리그오브레전드 전적 검색",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "backend": "nodemon index.js",
+    "start": "node server/index.js",
+    "backend": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,7 +22,7 @@
     "axios": "^0.25.0",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
-    "mongoose": "^6.1.7"
+    "mongoose": "^6.1.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
