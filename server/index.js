@@ -32,8 +32,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get('/api/hello', (req, res) => {
+  res.send('hello')
+})
+
 //riot 서버에서 소환사 정보, 전적 갱신받기
-app.post('/updateSummoner', async (req, res) => {
+app.post('/api/updateSummoner', async (req, res) => {
 
   console.log('')
   console.log('-----------------')
@@ -183,7 +187,7 @@ app.post('/updateSummoner', async (req, res) => {
 })
 
 //riot 서버에서 인게임 정보 받기
-app.get('/inGameInfo', (req, res) => {
+app.get('/api/inGameInfo', (req, res) => {
 
   const summonerIdURI = `https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${req.body.id}`
   const encodedSummonerId = encodeURI(summonerIdURI)
@@ -206,7 +210,7 @@ app.get('/inGameInfo', (req, res) => {
 })
 
 //클라이언트에 소환사 정보 보내기
-app.get('/getSummoner', (req, res) => {
+app.get('/api/getSummoner', (req, res) => {
   Summoner.findOne({ name: req.body.name })
   .exec((err, summoner) => {
     if(err){
@@ -226,7 +230,7 @@ app.get('/getSummoner', (req, res) => {
 })
 
 //클라이언트에 LeagueEntry 보내기
-app.get('/getLeagueEntry', (req, res) => {
+app.get('/api/getLeagueEntry', (req, res) => {
   LeagueEntry.find({ summonerName: req.body.name })
   .exec((err, leagueEntry) => {
     console.log(leagueEntry)
@@ -246,7 +250,7 @@ app.get('/getLeagueEntry', (req, res) => {
 })
 
 //클라이언트에 Match 보내기
-app.get('/getMatch', (req, res) => {
+app.get('/api/getMatch', (req, res) => {
   Match.find( {"info.participants.summonerName": req.body.name })
   .sort({ "info.gameCreation": -1})
   .exec((err, match) => {
