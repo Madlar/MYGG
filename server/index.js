@@ -211,7 +211,7 @@ app.get('/api/inGameInfo', (req, res) => {
 
 //클라이언트에 소환사 정보 보내기
 app.get('/api/getSummoner', (req, res) => {
-  Summoner.findOne({ name: req.body.name })
+  Summoner.findOne({ name: req.query.name })
   .exec((err, summoner) => {
     if(err){
       res.send(err)
@@ -223,7 +223,7 @@ app.get('/api/getSummoner', (req, res) => {
       })
     }
     else {
-      res.status(200).json(summoner)
+      res.status(200).json({ searchSuccess: true, Summoner: summoner })
     }
   })
 

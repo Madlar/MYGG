@@ -5,6 +5,7 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import Champion from "./components/views/Champion/Champion";
 import Arma from "./components/views/Arma/Arma";
 import NavBar from "./components/views/NavBar/NavBar";
+import SummonerPage from "./components/views/SummonerPage/SummonerPage";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<NavBar />} >
           <Route index element={<LandingPage />} />
-          <Route path="Champion" element={<Champion />} />
-          <Route path="Arma" element={<Arma />} />
+          <Route path="/summoner" element={<SummonerPage />} />
+          <Route path="/champion" element={<Champion />} />
+          <Route path="/arma" element={<Arma />} />
           {/* Using path="*"" means "match anything", so this route
           acts like a catch-all for URLs that we don't have explicit
           routes for. */}
