@@ -219,7 +219,8 @@ app.get('/api/getSummoner', (req, res) => {
     else if(!summoner) {
       res.status(404).json({
         status: 404,
-        message: 'Can not found - summoner'
+        message: 'Can not found - summoner',
+        searchSuccess: false
       })
     }
     else {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Champion() {
+function ChampionPage() {
   return (
   <div>
       챔피언
   </div>);
 }
 
-export default Champion;
+export default ChampionPage;

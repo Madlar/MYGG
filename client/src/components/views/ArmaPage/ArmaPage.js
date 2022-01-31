@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Arma() {
+function ArmaPage() {
   return (
   <div>
       칼바람
   </div>);
 }
 
-export default Arma;
+export default ArmaPage;

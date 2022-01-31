@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { searchSummoner } from '../../../_actions/summoner_action'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 //v6가 되면서 useNavigate 써야함
 
 function LandingPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  //const summonerState = useSelector(state => )
 
   const [Name, setName] = useState("");
 
@@ -20,12 +20,12 @@ function LandingPage() {
 
     dispatch(searchSummoner(Name))
     .then(res => {
-      if(res.payload.searchSuccess) {
-        navigate('/summoner')
-      } else {
-        alert('Error')
-      }
+      navigate(`/summoner/userName=${Name}`)
     })
+    .catch(err => {
+      alert('Error')
+    })
+    
 
   }
 

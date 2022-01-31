@@ -5,7 +5,7 @@ import {
 export default function (state={}, action) {
     switch (action.type) {
         case SEARCH_SUMMONER:
-            return {...state, searhSuccess: action.payload}
+            return {...state, searchSuccess: action.payload}
             break
 
         default:

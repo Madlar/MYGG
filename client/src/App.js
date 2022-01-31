@@ -2,8 +2,8 @@ import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import './App.css';
 import LandingPage from "./components/views/LandingPage/LandingPage";
-import Champion from "./components/views/Champion/Champion";
-import Arma from "./components/views/Arma/Arma";
+import ChampionPage from "./components/views/ChampionPage/ChampionPage";
+import ArmaPage from "./components/views/ArmaPage/ArmaPage";
 import NavBar from "./components/views/NavBar/NavBar";
 import SummonerPage from "./components/views/SummonerPage/SummonerPage";
 
@@ -16,9 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<NavBar />} >
           <Route index element={<LandingPage />} />
-          <Route path="/summoner" element={<SummonerPage />} />
-          <Route path="/champion" element={<Champion />} />
-          <Route path="/arma" element={<Arma />} />
+          <Route path="/summoner/userName=:name" element={<SummonerPage />} />
+          <Route path="/champion" element={<ChampionPage />} />
+          <Route path="/arma" element={<ArmaPage />} />
           {/* Using path="*"" means "match anything", so this route
           acts like a catch-all for URLs that we don't have explicit
           routes for. */}
