@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { searchSummoner } from '../../../_actions/summoner_action'
 import { useNavigate } from 'react-router-dom'
 //v6가 되면서 useNavigate 써야함
+import { Space, Input } from 'antd'
+
+const { Search } = Input
 
 function LandingPage() {
   const dispatch = useDispatch()
@@ -15,8 +18,8 @@ function LandingPage() {
     setName(event.currentTarget.value)
   }
 
-  const onSubmitHandler = (event) => {
-    event.preventDefault() //새로고침 방지
+  const onSearchHandler = (event) => {
+    //event.preventDefault() //새로고침 방지
 
     dispatch(searchSummoner(Name))
     .then(res => {
@@ -30,17 +33,23 @@ function LandingPage() {
   }
 
   return (
-  <div style={{
-      disply: 'flex', justifyContent: 'center', alignItems: 'center',
-      width: '100%', height: '100vh'
-  }}>
-    <form onSubmit={onSubmitHandler}>
-      <input type="name" value={Name} onChange={onNameHandler} />
-      <button>
-        검색
-      </button>
-    </form>
-  </div>);
+    <div>
+      <Space>
+      <div style={{ display: 'flex', width:'500px' }}>
+        <Search 
+          placeholder="소환사명"
+          enterButton="Search"
+          size="large"
+          value={Name}
+          onChange={onNameHandler}
+          onSearch={onSearchHandler}
+        />
+      </div>
+      </Space>
+    </div>
+  )
+      
+    
 }
 
 export default LandingPage;
