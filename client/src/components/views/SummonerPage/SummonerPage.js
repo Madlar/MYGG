@@ -8,6 +8,7 @@ const { TabPane } = Tabs;
 
 function SummonerPage() {
   const [isExist, setIsExist] = useState("");
+  const [summoner, setSummoner] = useState("");
 
   const name = useLocation().pathname.split('=').reverse()[0]
 
@@ -17,6 +18,7 @@ function SummonerPage() {
     dispatch(searchSummoner(name))
     .then(res => {
       setIsExist(res.payload.searchSuccess)
+      setSummoner(res.payload.Summoner)
     })
     .catch(err => {
       setIsExist(false)
@@ -28,7 +30,11 @@ function SummonerPage() {
       <div>
         <div style={{
           display: 'flex',height: '100px', marginLeft: '50px'
-        }}>소환사 아이콘, 레벨, 이름, 전적갱신버튼</div>
+        }/*소환사 아이콘, 레벨, 이름, 전적갱신버튼*/}>
+          <div>
+            
+          </div>
+        </div>
         <div style={{
           display: 'flex', marginLeft: '100px'
         }}>
