@@ -6,15 +6,12 @@ import { useLocation } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
-
 function SummonerPage() {
   const [isExist, setIsExist] = useState("");
 
   const name = useLocation().pathname.split('=').reverse()[0]
 
   const dispatch = useDispatch()
-
-  var dispatchRes
 
   useEffect(() => {
     dispatch(searchSummoner(name))
