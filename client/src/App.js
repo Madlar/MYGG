@@ -14,8 +14,8 @@ function App() {
       parent route paths, and nested route elements render inside
       parent route elements. See the note about <Outlet> below. */}
       <Routes>
-        <Route path="/" element={<NavBar />} >
-          <Route index element={<LandingPage />} />
+        <Route element={<NavBar />} >
+          <Route path="/" element={<LandingPage />} />
           <Route path="/summoner/userName=:name" element={<SummonerPage />} />
           <Route path="/champion" element={<ChampionPage />} />
           <Route path="/arma" element={<ArmaPage />} />

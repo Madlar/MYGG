@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { searchSummoner } from '../../../_actions/summoner_action'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 //v6가 되면서 useNavigate 써야함
 import { Space, Input } from 'antd'
@@ -8,9 +6,7 @@ import { Space, Input } from 'antd'
 const { Search } = Input
 
 function LandingPage() {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  //const summonerState = useSelector(state => )
 
   const [Name, setName] = useState("");
 
@@ -19,17 +15,7 @@ function LandingPage() {
   }
 
   const onSearchHandler = (event) => {
-    //event.preventDefault() //새로고침 방지
-
-    dispatch(searchSummoner(Name))
-    .then(res => {
-      navigate(`/summoner/userName=${Name}`)
-    })
-    .catch(err => {
-      alert('Error')
-    })
-    
-
+    navigate(`/summoner/userName=${Name}`)
   }
 
   return (
