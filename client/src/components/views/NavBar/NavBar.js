@@ -31,7 +31,8 @@ function NavBar() {
   }
 
   const onSearchHandler = (event) => {
-    navigate(`/summoner/userName=${Name}`)
+    navigate(`/summoner/userName=${Name}`, { state: {} })
+    window.location.reload()
   }
 
   if(isHome) {//현재 주소가 렌딩페이지이면 검색창을 없앰

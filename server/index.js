@@ -74,6 +74,7 @@ app.post('/api/updateSummoner', async (req, res) => {
       if (err) return res.json({ 'Summoner success': false, err })
     });
     console.log('Summoner success : true')
+    console.log('')
 
   })
   .catch(err => {
@@ -182,6 +183,9 @@ app.post('/api/updateSummoner', async (req, res) => {
       return console.log(err)
     })
   })
+  console.log('-----------------')
+  console.log('Update Complete!!')
+  console.log('-----------------')
 
   return res.status(200).json({ success: true })
 })
