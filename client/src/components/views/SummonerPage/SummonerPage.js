@@ -5,6 +5,8 @@ import { searchSummoner } from '../../../_actions/summoner_action'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios'
 
+import LeagueEntry from './LeagueEntry';
+
 const { TabPane } = Tabs;
 
 function SummonerPage() {
@@ -68,9 +70,9 @@ function SummonerPage() {
         <div style={{
           display: 'flex', marginLeft: '100px'
         }}>
-          <Tabs onChange={callback} type="card">
+          <Tabs onChange={callback} >
             <TabPane tab="종합" key="1">
-              Content of Tab Pane 1
+              <LeagueEntry name={summoner.name} />
             </TabPane>
              <TabPane tab="챔피언" key="2">
               Content of Tab Pane 2

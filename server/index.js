@@ -53,9 +53,11 @@ app.post('/api/updateSummoner', async (req, res) => {
   var id
   var puuid
   var matchList = new Array()
+
+  console.log(summonerURI)
   
   //Riot API를 사용하여 소환사 이름으로 검색해서 소환사 정보 가져오기
-  await riotAxios.get(encodedSummoner)
+  await riotAxios.get(summonerURI)
   .then(axiosRes => {
 
     const summoner = new Summoner(axiosRes.data)
@@ -262,9 +264,9 @@ app.get('/api/getSummoner', (req, res) => {
 
 //클라이언트에 LeagueEntry 보내기
 app.get('/api/getLeagueEntry', (req, res) => {
-  LeagueEntry.find({ summonerName: req.body.name })
+  LeagueEntry.find({ summonerName: req.query.name })
   .exec((err, leagueEntry) => {
-    console.log(leagueEntry)
+    //console.log(leagueEntry)
     if(err) {
       res.send(err)
     }
