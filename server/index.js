@@ -42,12 +42,14 @@ app.post('/api/updateSummoner', async (req, res) => {
   console.log('')
   console.log('-----------------')
   console.log('Updating Summoner')
+  console.log(`name: ${req.body.name}`)
   console.log('-----------------')
 
   //영문, 숫자 이외의 문자를 uri로 받기 위해 uft8로 인코딩
   const summonerURI = `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.body.name}`
   const encodedSummoner = encodeURI(summonerURI)
 
+  var matchCount = 0 //match axios 횟수
   var id
   var puuid
   var matchList = new Array()
@@ -163,12 +165,31 @@ app.post('/api/updateSummoner', async (req, res) => {
           const temp = `${index} th match success : false`
           console.log(temp)
           console.log(err)
+
+          matchCount += 1
+          if(matchCount == 20) {//20번째 axios가 끝나면 return
+            console.log('')
+            console.log('-----------------')
+            console.log('Updating Complete')
+            console.log('-----------------')
+            return res.status(200).json({ success: true })
+          }
         }
         else {
           const temp = `${index} th match success : true`
           console.log(temp)
+
+          matchCount += 1
+          if(matchCount == 20) {//20번째 axios가 끝나면 return
+            console.log('')
+            console.log('-----------------')
+            console.log('Updating Complete')
+            console.log('-----------------')
+            return res.status(200).json({ success: true })
+          }
         }
       })
+      
 
     })
     .catch(err => {
@@ -181,13 +202,18 @@ app.post('/api/updateSummoner', async (req, res) => {
       }
       else
       return console.log(err)
+
+      matchCount += 1
+      if(matchCount == 20) {//20번째 axios가 끝나면 return
+        console.log('')
+        console.log('-----------------')
+        console.log('Updating Complete')
+        console.log('-----------------')
+        return res.status(200).json({ success: true })
+      }
     })
   })
-  console.log('-----------------')
-  console.log('Update Complete!!')
-  console.log('-----------------')
 
-  return res.status(200).json({ success: true })
 })
 
 //riot 서버에서 인게임 정보 받기

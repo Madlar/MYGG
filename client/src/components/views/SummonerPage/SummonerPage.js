@@ -3,6 +3,7 @@ import { Tabs, Button } from 'antd'
 import { useDispatch } from 'react-redux'
 import { searchSummoner } from '../../../_actions/summoner_action'
 import { useLocation } from 'react-router-dom';
+import axios from 'axios'
 
 const { TabPane } = Tabs;
 
@@ -15,6 +16,20 @@ function SummonerPage() {
   const name = useLocation().pathname.split('=').reverse()[0]
 
   const dispatch = useDispatch()
+
+  const onUpdateHandler = (event) => {
+    let body = {
+      name: name
+    }
+    axios.post('/api/updateSummoner', body)
+    .then(res => {
+      console.log(res.data)
+      window.location.reload()
+    })
+    .catch(err => {
+      console.log(err.response.data)
+    })
+  }
 
   //var profileIconId
 
@@ -46,7 +61,7 @@ function SummonerPage() {
           <div style={{ marginLeft: '50px' }}>{/* 소환사 이름, 전적갱신버튼 */}
             <h2>{summoner.name}</h2>
             <div style={{ marginTop: '50px' }}>
-              <Button type="primary">전적갱신</Button>
+              <Button type="primary" onClick={onUpdateHandler}>전적갱신</Button>
             </div>
           </div>
         </div>
