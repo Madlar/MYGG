@@ -6,8 +6,12 @@ import ChampionPage from "./components/views/ChampionPage/ChampionPage";
 import ArmaPage from "./components/views/ArmaPage/ArmaPage";
 import NavBar from "./components/views/NavBar/NavBar";
 import SummonerPage from "./components/views/SummonerPage/SummonerPage";
+import IsExist from './hoc/isExist'
 
 function App() {
+
+  const WithIsExist = IsExist(SummonerPage)
+
   return (
     <div className="App">
       {/* Routes nest inside one another. Nested route paths build upon
@@ -16,7 +20,7 @@ function App() {
       <Routes>
         <Route element={<NavBar />} >
           <Route path="/" element={<LandingPage />} />
-          <Route path="/summoner/userName=:name" element={<SummonerPage />} />
+          <Route path="/summoner/userName=:name" element={<WithIsExist />} />
           <Route path="/champion" element={<ChampionPage />} />
           <Route path="/arma" element={<ArmaPage />} />
           {/* Using path="*"" means "match anything", so this route

@@ -1,28 +1,19 @@
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Card } from 'antd'
 
 function LeagueEntry(props) {
 
+    const [isExist, setIsExist] = useState("");
+
     var leagueEntry
 
-    useEffect(() => {
-        axios.get(`/api/getLeagueEntry?name=${props.name}`)
-        .then(res => {
-            console.log(res.data)
-            leagueEntry = res.data
-            console.log(leagueEntry)
-            console.log(leagueEntry[0])
-            console.log(leagueEntry[1])
-        })
-        .catch(err => {
-            console.log(err.response.data)
-        })
-    }, [props.name]);
-    
-    
+    //console.log(props.summoner.name)
 
     return (
-        <h3 style={{ marginLeft: '0px' }}>{props.name}</h3>
+        <Card style={{ width: '300px', height: '150px'}}>
+            <h3 style={{ marginLeft: '0px' }}>{props.summoner.name}</h3>
+        </Card>
     )
 }
 

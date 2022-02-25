@@ -1,0 +1,43 @@
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { searchSummoner } from '../_actions/summoner_action'
+import { useLocation } from 'react-router-dom';
+import NoSummoner from '../components/views/SummonerPage/NoSummoner';
+import SummonerPage from '../components/views/SummonerPage/SummonerPage';
+
+export default function (SpecificComponent, option, adminRoute = null) {
+
+    function IsExistCheck(props) {
+        
+        const [summoner, setSummoner] = useState("")
+        const [searchSuccess, setSearchSuccess] = useState("-1")
+        const name = useLocation().pathname.split('=').reverse()[0]
+        const dispatch = useDispatch()
+
+        useEffect(() => {
+            dispatch(searchSummoner(name))
+            .then(res => {
+               setSummoner(res.payload.Summoner)
+               setSearchSuccess(res.payload.searchSuccess)
+            })
+        }, [])
+
+        if(searchSuccess == true) {
+            return (
+                <SummonerPage summoner={summoner}/>
+            )
+        }
+        else if(searchSuccess == false) {
+            return (
+                <NoSummoner/>
+            )
+        }
+
+        return(
+            <h1></h1>
+        )
+        
+    }
+
+    return IsExistCheck
+}
