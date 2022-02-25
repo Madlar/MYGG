@@ -10,8 +10,9 @@ const { TabPane } = Tabs;
 function SummonerPage(props) {
 
   const summoner = props.summoner
-
   const name = useLocation().pathname.split('=').reverse()[0]
+  const [soloRank, setSoloRank] = useState(-1)
+  const [flexRank, setFlexRank] = useState(-1)
 
   const onUpdateHandler = (event) => {
     let body = {
@@ -27,31 +28,50 @@ function SummonerPage(props) {
     })
   }
 
+  useEffect(() => {
+    axios.get(`/api/getLeagueEntry?name=${summoner.name}`).then(res => {
+      setSoloRank("UNRANKED")
+      setFlexRank("UNRANKED")
+      for(let i of res.data) {
+        if(i.queueType == 'RANKED_SOLO_5x5') {
+          setSoloRank(i)
+        }
+        else if(i.queueType == 'RANKED_FLEX_SR') {
+          setFlexRank(i)
+        }
+      }
+    })
+  }, [])
+
   return(
     <div>
-      <div style={{
-        display: 'flex',height: '150px', marginLeft: '100px'
-      }}>
+      <div>
         <div>{/* 소환사 아이콘, 레벨 */}
           <img width="128" height="128"
           src={ `${process.env.PUBLIC_URL}/dragontail-12.3.1/12.3.1/img/profileicon/${summoner.profileIconId}.png` } />
-          <br></br>
-          {summoner.level}
+          <br/>
+          {summoner.summonerLevel}
         </div>
-        <div style={{ marginLeft: '50px' }}>{/* 소환사 이름, 전적갱신버튼 */}
+        <div>{/* 소환사 이름, 전적갱신버튼 */}
           <h2>{summoner.name}</h2>
-          <div style={{ marginTop: '50px' }}>
+          <div>
             <Button type="primary" onClick={onUpdateHandler}>전적갱신</Button>
           </div>
         </div>
       </div>
-      <div style={{
-        display: 'flex', marginLeft: '100px'
-      }}>
+      <div>
         <Tabs onChange={callback} >
           <TabPane tab="종합" key="1">
-            <LeagueEntry summoner={summoner} />{/*솔로랭크*/}
-            <LeagueEntry summoner={summoner} />{/*자유랭크*/}
+            <div>
+              <div>{/*티어, 시즌 통계*/}
+                <LeagueEntry queueType={'솔로랭크'} leagueEntry={soloRank} />{/*솔로랭크*/}
+                <LeagueEntry queueType={'자유랭크'} leagueEntry={flexRank} />{/*자유랭크*/}
+              </div>
+              <div>{/*매치 세부내용*/}
+
+              </div>
+            </div>
+            
           </TabPane>
            <TabPane tab="챔피언" key="2">
             Content of Tab Pane 2

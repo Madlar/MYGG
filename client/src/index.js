@@ -15,7 +15,7 @@ import ReduxThunk from 'redux-thunk'
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <BrowserRouter>
     <Provider
       store={createStoreWithMiddleware(Reducer,
@@ -24,8 +24,8 @@ ReactDOM.render(
       )}>
       <App />
     </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+    </BrowserRouter>,
+  //</React.StrictMode>,
   document.getElementById('root')
 );
 

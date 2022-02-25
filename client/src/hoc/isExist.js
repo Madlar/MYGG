@@ -10,7 +10,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
     function IsExistCheck(props) {
         
         const [summoner, setSummoner] = useState("")
-        const [searchSuccess, setSearchSuccess] = useState("-1")
+        const [searchSuccess, setSearchSuccess] = useState(-1)
         const name = useLocation().pathname.split('=').reverse()[0]
         const dispatch = useDispatch()
 
@@ -21,6 +21,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                setSearchSuccess(res.payload.searchSuccess)
             })
         }, [])
+
 
         if(searchSuccess == true) {
             return (
@@ -34,7 +35,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
         }
 
         return(
-            <h1></h1>
+            <div></div>
         )
         
     }

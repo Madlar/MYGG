@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /public/dragontail-12.3.1
+/public/ranked-emblems
 
 # testing
 /coverage
