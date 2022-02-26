@@ -40,8 +40,8 @@ function NavBar() {
       <div>
       {/* A "layout route" is a good place to put markup you want to
         share across all the pages on your site, like navigation. */}
-        <nav style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ width:'1000px' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1da57a' }}>
+          <div style={{ width:'1300px' }}>
             <Menu mode='horizontal'>
               <Menu.Item key="home">
                 <Link to="/">홈</Link>
@@ -68,7 +68,7 @@ function NavBar() {
     <div>
     {/* A "layout route" is a good place to put markup you want to
         share across all the pages on your site, like navigation. */}
-      <nav style={{ display: 'flex', alignItems: 'center' }}>
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1da57a' }}>
         <div style={{ width:'1000px' }}>
           <Menu mode='horizontal'>
             <Menu.Item key="home">

@@ -19,9 +19,8 @@ function LandingPage() {
   }
 
   return (
-    <div>
-      <Space>
-      <div style={{ display: 'flex', width:'500px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: '#1da57a' }}>
+      <div style={{ display: 'flex', width:'500px', height: '100vh', padding: '10px', marginTop: '30vh' }}>
         <Search 
           placeholder="소환사명"
           enterButton="Search"
@@ -31,7 +30,6 @@ function LandingPage() {
           onSearch={onSearchHandler}
         />
       </div>
-      </Space>
     </div>
   )
       

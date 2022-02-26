@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import './App.css';
+import './App.less';
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import ChampionPage from "./components/views/ChampionPage/ChampionPage";
 import ArmaPage from "./components/views/ArmaPage/ArmaPage";

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'antd/dist/antd.css'
 
 import Reducer from './_reducers'
 import { applyMiddleware, createStore } from 'redux'
