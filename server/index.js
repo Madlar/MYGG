@@ -86,6 +86,7 @@ app.post('/api/updateSummoner', async (req, res) => {
       if(err.response.hasOwnProperty('status')) {
         console.log(err.response.status)
         console.log(err.response.data)
+        return res.status(err.response.status).json(err.response.data)
       }
       else return console.log(err)
     }
@@ -93,8 +94,9 @@ app.post('/api/updateSummoner', async (req, res) => {
     return console.log(err)
   })
 
+  console.log('LeagueEntry')
   //LeagueEntry 받아오기
-  riotAxios.get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}`)
+  await riotAxios.get(`https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}`)
   .then(entryRes => {//json 배열로 값이 넘어옴
     if(entryRes.data.length !== 0) {
       entryRes.data.forEach(element => {
@@ -130,6 +132,7 @@ app.post('/api/updateSummoner', async (req, res) => {
     return console.log(err)
   })
 
+  console.log('MatchList')
   //MatchList 받기 start = 0, count = 100 (0<100, def = 20)
   await riotAxios.get(`https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20`)
   .then(listRes => {
