@@ -244,7 +244,7 @@ app.get('/api/inGameInfo', (req, res) => {
 
 })
 
-//클라이언트에 소환사 정보 보내기
+//db에서 소환사 정보 찾기
 app.get('/api/getSummoner', (req, res) => {
   Summoner.findOne({ name: req.query.name })
   .exec((err, summoner) => {
@@ -265,7 +265,7 @@ app.get('/api/getSummoner', (req, res) => {
 
 })
 
-//클라이언트에 LeagueEntry 보내기
+//db에서 LeagueEntry 찾기
 app.get('/api/getLeagueEntry', (req, res) => {
   LeagueEntry.find({ summonerName: req.query.name })
   .exec((err, leagueEntry) => {
@@ -285,9 +285,9 @@ app.get('/api/getLeagueEntry', (req, res) => {
 
 })
 
-//클라이언트에 Match 보내기
+//db에서 Match 찾기
 app.get('/api/getMatch', (req, res) => {
-  Match.find( {"info.participants.summonerName": req.body.name })
+  Match.find( {"info.participants.summonerName": req.query.name })
   .sort({ "info.gameCreation": -1})
   .exec((err, match) => {
     if(err) {

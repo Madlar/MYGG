@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, Button } from 'antd'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios'
 
 import LeagueEntry from './LeagueEntry';
+import Record from './Record';
 
 const { TabPane } = Tabs;
 
@@ -13,6 +14,7 @@ function SummonerPage(props) {
   const name = useLocation().pathname.split('=').reverse()[0]
   const [soloRank, setSoloRank] = useState(-1)
   const [flexRank, setFlexRank] = useState(-1)
+  const [records, setRecords] = useState()
 
   const onUpdateHandler = (event) => {
     let body = {
@@ -41,6 +43,17 @@ function SummonerPage(props) {
         }
       }
     })
+
+    axios.get(`/api/getMatch?name=${summoner.name}`)
+      .then(res => {
+        console.log(res.data)
+        setRecords(
+          res.data.map( (record) => 
+            <Record key={record.info.gameId} record={record} summonerName={summoner.name}/>
+          )
+        )
+      })
+
   }, [])
 
   return (
@@ -70,12 +83,13 @@ function SummonerPage(props) {
         <div style={{ width: '1000px' }}>
           <Tabs onChange={callback} >
             <TabPane tab="종합" key="1">
-              <div>
+              <div style={{ display: 'flex'}}>
                 <div>{/*티어, 시즌 통계*/}
                   <LeagueEntry queueType={'솔로랭크'} leagueEntry={soloRank} />{/*솔로랭크*/}
                   <LeagueEntry queueType={'자유랭크'} leagueEntry={flexRank} />{/*자유랭크*/}
                 </div>
                 <div>{/*매치 세부내용*/}
+                  {records}
                 </div>
               </div>
             </TabPane>

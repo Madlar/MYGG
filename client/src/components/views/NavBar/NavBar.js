@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { Menu } from 'antd'
 import { Space, Input } from 'antd'
@@ -69,7 +69,7 @@ function NavBar() {
       {/* A "layout route" is a good place to put markup you want to
         share across all the pages on your site, like navigation. */}
       <nav style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#1da57a' }}>
-        <div style={{ width: '900px' }}>
+        <div style={{ display: 'flex', width: '900px'}}>
           <Menu mode='horizontal'>
             <Menu.Item key="home">
               <Link to="/">홈</Link>
@@ -82,17 +82,15 @@ function NavBar() {
             </Menu.Item>
           </Menu>
         </div>
-        <div style={{}}>
-          <div style={{ width: '400px' }}>
-            <Search
-              placeholder="소환사명"
-              enterButton="Search"
-              size="medium"
-              value={Name}
-              onChange={onNameHandler}
-              onSearch={onSearchHandler}
-            />
-          </div>
+        <div style={{ display: 'flex', flexBasis: '400px', flexShrink: '0' }}>
+          <Search
+            placeholder="소환사명"
+            enterButton="Search"
+            size="medium"
+            value={Name}
+            onChange={onNameHandler}
+            onSearch={onSearchHandler}
+          />
         </div>
       </nav>
 

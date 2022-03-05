@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 //v6가 되면서 useNavigate 써야함
 import { Space, Input } from 'antd'

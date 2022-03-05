@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { searchSummoner } from '../_actions/summoner_action'
 import { useLocation } from 'react-router-dom';

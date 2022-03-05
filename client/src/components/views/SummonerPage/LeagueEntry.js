@@ -4,7 +4,7 @@ function LeagueEntry(props) {
 
     const win = props.leagueEntry.wins
     const loss = props.leagueEntry.losses
-    const winRate =Math.round(win / (win+loss) * 100)
+    const winRate = Math.round(win / (win+loss) * 100)
 
     if(props.leagueEntry == 'UNRANKED') {
         return(
