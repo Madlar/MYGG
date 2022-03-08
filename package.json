@@ -1,32 +1,48 @@
 {
-  "name": "mygg",
-  "version": "1.0.0",
-  "description": "리그오브레전드 전적 검색",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server/index.js",
-    "backend": "nodemon server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Madlar/MYGG.git"
-  },
-  "author": "Madlar",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Madlar/MYGG/issues"
-  },
-  "homepage": "https://github.com/Madlar/MYGG#readme",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.18.8",
     "axios": "^0.25.0",
-    "body-parser": "^1.19.1",
-    "concurrently": "^7.0.0",
-    "express": "^4.17.2",
-    "mongoose": "^6.1.8"
+    "craco-less": "^2.0.0",
+    "http-proxy-middleware": "^2.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "5.0.0",
+    "redux": "^4.1.2",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.4.1",
+    "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
