@@ -46,6 +46,7 @@ function SummonerPage(props) {
   }
 
   useEffect(() => {
+    document.title = `${summoner.name} - 전적`
     axios.get(`/api/getLeagueEntry?name=${summoner.name}`).then(res => {
       var soloTemp = 'UNRANKED'
       var flexTemp = 'UNRANKED'

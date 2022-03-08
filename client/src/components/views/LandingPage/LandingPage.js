@@ -6,6 +6,7 @@ import { Space, Input } from 'antd'
 const { Search } = Input
 
 function LandingPage() {
+  document.title = 'MY.GG'
   const navigate = useNavigate()
 
   const [Name, setName] = useState("");
