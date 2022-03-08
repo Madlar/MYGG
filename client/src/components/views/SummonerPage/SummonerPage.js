@@ -6,17 +6,24 @@ import axios from 'axios'
 import LeagueEntry from './LeagueEntry';
 import Record from './Record';
 
+const config = require('../../../config')
 const { TabPane } = Tabs;
 
 function SummonerPage(props) {
+
+  const count = 20 //한번에 표시할 전적 수
 
   const summoner = props.summoner
   const name = useLocation().pathname.split('=').reverse()[0]
   const [soloRank, setSoloRank] = useState(-1)
   const [flexRank, setFlexRank] = useState(-1)
   const [records, setRecords] = useState()
+  const [recordData, setRecordData] = useState()
+  const [recordList, setRecordList] = useState()
+  const [updateLoading, setUpdateLoading] = useState(false)
 
   const onUpdateHandler = (event) => {
+    setUpdateLoading(true)
     let body = {
       name: name
     }
@@ -28,6 +35,10 @@ function SummonerPage(props) {
       .catch(err => {
         console.log(err.response.data)
       })
+  }
+
+  const onLoadMore = (event) => {
+
   }
 
   useEffect(() => {
@@ -47,8 +58,10 @@ function SummonerPage(props) {
     axios.get(`/api/getMatch?name=${summoner.name}`)
       .then(res => {
         console.log(res.data)
+        setRecordData(res.data)
+        setRecordList(res.data.slice(0, count))
         setRecords(
-          res.data.map( (record) => 
+          res.data.slice(0, count).map( (record) => 
             <Record key={record.info.gameId} record={record} summonerName={summoner.name}/>
           )
         )
@@ -64,7 +77,7 @@ function SummonerPage(props) {
           <div style={{ float: 'left', padding: '10px' }}>{/* 소환사 아이콘, 레벨 */}
             <div>
               <img width="100" height="100"
-                src={`${process.env.PUBLIC_URL}/dragontail-12.3.1/12.3.1/img/profileicon/${summoner.profileIconId}.png`} />
+                src={`http://ddragon.leagueoflegends.com/cdn/${config.gameVersion}/img/profileicon/${summoner.profileIconId}.png`} />
             </div>
             <div>
               {summoner.summonerLevel}
@@ -73,7 +86,7 @@ function SummonerPage(props) {
           <div style={{ float: 'left', padding: '10px' }}>{/* 소환사 이름, 전적갱신버튼 */}
             <h2 style={{}}>{summoner.name}</h2>
             <div style={{}}>
-              <Button type="primary" onClick={onUpdateHandler}>전적갱신</Button>
+              <Button type="primary" loading={updateLoading} onClick={onUpdateHandler}>전적갱신</Button>
             </div>
           </div>
         </div>
@@ -88,8 +101,9 @@ function SummonerPage(props) {
                   <LeagueEntry queueType={'솔로랭크'} leagueEntry={soloRank} />{/*솔로랭크*/}
                   <LeagueEntry queueType={'자유랭크'} leagueEntry={flexRank} />{/*자유랭크*/}
                 </div>
-                <div>{/*매치 세부내용*/}
+                <div style={{ display: 'flex', flexDirection: 'column', width: '700px', marginBottom: '100px'}}>{/*매치 세부내용*/}
                   {records}
+                    <Button onClick={onLoadMore()}>더 보기</Button>
                 </div>
               </div>
             </TabPane>
