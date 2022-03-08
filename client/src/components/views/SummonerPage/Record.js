@@ -13,15 +13,24 @@ function Record(props) {
     //솔랭, 자유랭 등 큐 타입
     const queueType = () => {
 
-        if(props.record.info.queueId == 420) {
-            return '솔랭'
+        switch (props.record.info.queueId) {
+            case 420:
+                return '솔랭'
+                break;
+
+            case 450:
+                return '무작위 총력전'
+                break;
+        
+            case 440:
+                return '팀랭'
+                break;
+        
+            default:
+                return props.record.info.queueId
+                break;
         }
-        else if(props.record.info.queueId == 450) {
-            return '무작위 총력전'
-        }
-        else {
-            return props.record.info.queueId
-        }
+        
     }
 
     //게임을 얼마나 예전에 플레이했는지
