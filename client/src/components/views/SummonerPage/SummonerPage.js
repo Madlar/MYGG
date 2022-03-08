@@ -6,6 +6,7 @@ import axios from 'axios'
 import LeagueEntry from './LeagueEntry';
 import Record from './Record';
 import NoRecord from './NoRecord';
+import Loading from './Loading';
 
 const config = require('../../../config')
 const { TabPane } = Tabs;
@@ -18,7 +19,7 @@ function SummonerPage(props) {
   const name = useLocation().pathname.split('=').reverse()[0]
   const [soloRank, setSoloRank] = useState(-1)
   const [flexRank, setFlexRank] = useState(-1)
-  const [records, setRecords] = useState()
+  const [records, setRecords] = useState(<Loading />)
   const [pivot, setPivot] = useState(0)
   const [initialLoading, setInitialLoading] = useState(true)
   const [moreLoading, setMoreLoading] = useState(false)
