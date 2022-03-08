@@ -151,7 +151,12 @@ function Record(props) {
 
     //kda
     const kda = () => {
-        return ((summoner.kills+summoner.assists)/summoner.deaths).toFixed(2)
+        if(summoner.deaths == 0) {
+            return 'perfect !'
+        }
+        else {
+            return ((summoner.kills+summoner.assists)/summoner.deaths).toFixed(2)
+        }
     }
     //총 cs
     const totalCS = () => {
@@ -226,12 +231,7 @@ function Record(props) {
                     &nbsp;
                     {summoner.assists}
                 </div>
-                <div>
-                    {kda()}
-                    :1
-                    &nbsp;
-                    평점
-                </div>
+                { summoner.deaths == 0 ? <div>{kda()}</div> : <div>{kda()}:1&nbsp;평점</div> }
             </div>
             <div>
                 <div style={{ fontSize: '0.75rem' }}>
