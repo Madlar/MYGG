@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import LeagueEntry from './LeagueEntry';
 import Record from './Record';
+import NoRecord from './NoRecord';
 
 const config = require('../../../config')
 const { TabPane } = Tabs;
@@ -18,11 +19,14 @@ function SummonerPage(props) {
   const [soloRank, setSoloRank] = useState(-1)
   const [flexRank, setFlexRank] = useState(-1)
   const [records, setRecords] = useState()
-  const [recordData, setRecordData] = useState()
-  const [recordList, setRecordList] = useState()
+  const [pivot, setPivot] = useState(0)
+  const [initialLoading, setInitialLoading] = useState(true)
+  const [moreLoading, setMoreLoading] = useState(false)
+  const [recordList, setRecordList] = useState([])
   const [updateLoading, setUpdateLoading] = useState(false)
 
   const onUpdateHandler = (event) => {
+    console.log(updateLoading)
     setUpdateLoading(true)
     let body = {
       name: name
@@ -38,36 +42,75 @@ function SummonerPage(props) {
   }
 
   const onLoadMore = (event) => {
-
+    setMoreLoading(true)
+    setPivot(pivot+count)
   }
 
   useEffect(() => {
     axios.get(`/api/getLeagueEntry?name=${summoner.name}`).then(res => {
-      setSoloRank("UNRANKED")
-      setFlexRank("UNRANKED")
+      var soloTemp = 'UNRANKED'
+      var flexTemp = 'UNRANKED'
+      
       for (let i of res.data) {
         if (i.queueType == 'RANKED_SOLO_5x5') {
-          setSoloRank(i)
+          soloTemp = i
         }
         else if (i.queueType == 'RANKED_FLEX_SR') {
-          setFlexRank(i)
+          flexTemp = i
         }
       }
+      setSoloRank(soloTemp)
+      setFlexRank(flexTemp)
     })
 
-    axios.get(`/api/getMatch?name=${summoner.name}`)
-      .then(res => {
-        console.log(res.data)
-        setRecordData(res.data)
-        setRecordList(res.data.slice(0, count))
-        setRecords(
-          res.data.slice(0, count).map( (record) => 
-            <Record key={record.info.gameId} record={record} summonerName={summoner.name}/>
-          )
-        )
-      })
-
   }, [])
+
+  useEffect(() => {
+    if(initialLoading) {
+      setInitialLoading(false)
+      axios.get(`/api/getMatch?name=${summoner.name}&start=${pivot}&count=${count}`)
+      .then(res => {
+        if(res.status == 204) {
+          setRecords(
+            records.concat(<NoRecord key={'noRecord'}/>)
+          )
+        }
+        else {
+          setRecordList(recordList.concat(res.data))
+          setRecords(
+            res.data.map( (record) => 
+              <Record key={record.info.gameId} record={record} summonerName={summoner.name}/>
+            )
+          )
+        }
+        
+      })
+    }
+
+    else {
+      axios.get(`/api/getMatch?name=${summoner.name}&start=${pivot}&count=${count}`)
+      .then(res => {
+        if(res.status == 204) {
+          setRecords(
+            records.concat(<NoRecord key={'noRecord'}/>)
+          )
+          setMoreLoading(false)
+        }
+        else {
+          setRecordList(recordList.concat(res.data))
+          setRecords(
+            recordList.concat(res.data).map( (record) => 
+              <Record key={record.info.gameId} record={record} summonerName={summoner.name}/>
+            )
+          )
+          setMoreLoading(false)
+        }
+      })
+    }
+    
+
+  }, [pivot])
+  
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -103,7 +146,7 @@ function SummonerPage(props) {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '700px', marginBottom: '100px'}}>{/*매치 세부내용*/}
                   {records}
-                    <Button onClick={onLoadMore()}>더 보기</Button>
+                    <Button loading={moreLoading} onClick={onLoadMore}>더 보기</Button>
                 </div>
               </div>
             </TabPane>

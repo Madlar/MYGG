@@ -287,6 +287,8 @@ app.get('/api/getLeagueEntry', (req, res) => {
 
 //db에서 Match 찾기
 app.get('/api/getMatch', (req, res) => {
+  const start = Number(req.query.start)
+  const count = Number(req.query.count)
   Match.find( {"info.participants.summonerName": req.query.name })
   .sort({ "info.gameCreation": -1})
   .exec((err, match) => {
@@ -294,7 +296,13 @@ app.get('/api/getMatch', (req, res) => {
       res.send(err)
     }
     else {
-      res.status(200).json(match)
+      if(match.length <= start) {
+        res.status(204).json({ message: 'no record' })
+      }
+      else {
+        const result = match.slice(start, start + count)
+        res.status(200).json(result)
+      }
     }
   })
 })
