@@ -8,6 +8,8 @@
 /public/dragontail-12.5.1.tgz
 /public/ranked-emblems
 /src/ko_KR
+/build
+/ssl 인증서.JPG
 
 # testing
 /coverage
