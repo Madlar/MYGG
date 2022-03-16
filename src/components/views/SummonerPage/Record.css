@@ -1,0 +1,23 @@
+.participants {
+    display: flex;
+    width: 109px;
+}
+.participant {
+    display: flex;
+    width: 109px;
+    min-width: 0px;
+}
+.summonerName {
+    color: black;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.paricipantChampImg {
+    width: 17px;
+    height: 17px;
+}
+.itemImg {
+    width: 25px;
+    height: 25px;
+}
