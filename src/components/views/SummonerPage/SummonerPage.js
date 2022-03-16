@@ -29,8 +29,9 @@ function SummonerPage(props) {
   const onUpdateHandler = (event) => {
     setUpdateLoading(true)
     let body = {
-      name: name
+      name: `${name}`
     }
+    console.log(body.name)
     axios.post('/api/updateSummoner', body)
       .then(res => {
         window.location.reload()

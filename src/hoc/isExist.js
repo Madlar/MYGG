@@ -30,21 +30,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                 <SummonerPage summoner={summoner}/>
             )
         }
-        else if(searchSuccess == false) {
-
-            console.log(searchSuccess)
-            
-            let body = {
-                name: name
-              }
-
-            axios.post('/api/updateSummoner', body).then(res => {
-                window.location.reload()
-            })
-            .catch(err => {
-                setSearchSuccess(-2)
-            })
-        }
+        
         else if(searchSuccess == -2) {
             return (
                 <NoSummoner/>
