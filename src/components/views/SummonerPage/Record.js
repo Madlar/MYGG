@@ -1,6 +1,7 @@
 import summonerSpells from '../../../ko_KR/summoner.json'
 import runes from '../../../ko_KR/runesReforged.json'
 import champions from '../../../ko_KR/champion.json'
+import './Record.css'
 
 const config = require('../../../config')
 
@@ -185,7 +186,7 @@ function Record(props) {
     }
 
     return(
-        <div style={{ display: 'flex', width: '700px', height: '100px', justifyContent: 'space-around', alignItems: 'center', marginBottom: '10px', backgroundColor: backPlateColor() }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '75px 104px 80px 90px 106px 220px', gridTemplateRows: '1fr', gap:'4px', width: '700px', height: '100px', alignItems: 'center', marginBottom: '10px', backgroundColor: backPlateColor() }}>
             <div>
                 <div style={{ fontSize: '0.7rem'}}>
                     {queueType()}
@@ -205,13 +206,13 @@ function Record(props) {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr', gap: '2px' }}>
                     <img width='50px' height='50px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${summoner.championName}.png`} />
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '1px' }}>
-                        <img width='25px' height='25px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/spell/${summonerSpell(summoner.summoner1Id)}`} />
+                        <img className='itemImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/spell/${summonerSpell(summoner.summoner1Id)}`} />
                         <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/bg/F5141416.png)` }}>
-                            <img width='25px' height='25px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/${primaryRune(summoner.perks.styles[0])}`} />
+                            <img className='itemImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/${primaryRune(summoner.perks.styles[0])}`} />
                         </div>
-                        <img width='25px' height='25px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/spell/${summonerSpell(summoner.summoner2Id)}`} />
+                        <img className='itemImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/spell/${summonerSpell(summoner.summoner2Id)}`} />
                         <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/bg/F5141416.png)` }}>
-                            <img width='25px' height='25px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/${subRune(summoner.perks.styles[1])}`} />
+                            <img className='itemImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/img/${subRune(summoner.perks.styles[1])}`} />
                         </div>
                     </div>
                 </div>
@@ -257,13 +258,13 @@ function Record(props) {
             </div>
             <div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '2px' }}>
-                    <img width='25px' height='25px' src={itemImg(summoner.item0)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item1)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item2)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item6)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item3)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item4)} />
-                    <img width='25px' height='25px' src={itemImg(summoner.item5)} />
+                    <img className='itemImg' src={itemImg(summoner.item0)} />
+                    <img className='itemImg' src={itemImg(summoner.item1)} />
+                    <img className='itemImg' src={itemImg(summoner.item2)} />
+                    <img className='itemImg' src={itemImg(summoner.item6)} />
+                    <img className='itemImg' src={itemImg(summoner.item3)} />
+                    <img className='itemImg' src={itemImg(summoner.item4)} />
+                    <img className='itemImg' src={itemImg(summoner.item5)} />
                 </div>
                 <div style={{ fontSize: '0.7rem'}}>
                     제어&nbsp;와드
@@ -271,64 +272,64 @@ function Record(props) {
                     {summoner.detectorWardsPlaced}
                 </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr', gap: '2px', fontSize: '0.7rem'}}>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[0].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[0].summonerName}`} style={{color: 'black'}}>
+            <div style={{ display: 'grid', minWidth: '0px', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr', gap: '2px', fontSize: '0.7rem'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[0].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[0].summonerName}`}>
                         {props.record.info.participants[0].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[5].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[5].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[5].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[5].summonerName}`} >
                         {props.record.info.participants[5].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[1].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[1].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[1].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[1].summonerName}`} >
                         {props.record.info.participants[1].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[6].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[6].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[6].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[6].summonerName}`} >
                         {props.record.info.participants[6].summonerName}
                     </a>
                 </div >
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[2].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[2].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[2].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[2].summonerName}`} >
                         {props.record.info.participants[2].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[7].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[7].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[7].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[7].summonerName}`} >
                         {props.record.info.participants[7].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[3].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[3].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[3].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[3].summonerName}`} >
                         {props.record.info.participants[3].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[8].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[8].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[8].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[8].summonerName}`} >
                         {props.record.info.participants[8].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[4].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[4].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[4].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[4].summonerName}`} >
                         {props.record.info.participants[4].summonerName}
                     </a>
                 </div>
-                <div style={{ display: 'flex'}}>
-                    <img width='17px' height='17px' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[9].championName}.png`} />
-                    <a href={`/summoner/userName=${props.record.info.participants[9].summonerName}`} style={{color: 'black'}}>
+                <div className='participant'>
+                    <img className='paricipantChampImg' src={`${process.env.PUBLIC_URL}/dragontail-${config.gameVersion}/${config.gameVersion}/img/champion/${props.record.info.participants[9].championName}.png`} />
+                    <a className='summonerName' href={`/summoner/userName=${props.record.info.participants[9].summonerName}`} >
                         {props.record.info.participants[9].summonerName}
                     </a>
                 </div>
